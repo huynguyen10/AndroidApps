@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ccs.labs.e2phone.profilers.MainActivity">
+
+    <TextView
+        android:id="@+id/tvProperties"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Settings" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:id="@+id/tvFreg"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Sampling Freq:" />
+
+        <EditText
+            android:id="@+id/etFreq"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="10" />
+
+        <TextView
+            android:id="@+id/tvUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hz" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvServer"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Data Server:"/>
+
+        <EditText
+            android:id="@+id/etServer"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="192.168.0.105" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvPort"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Port:"/>
+
+        <EditText
+            android:id="@+id/etPort"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="8080" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Start" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Stop" />
+    </LinearLayout>
+</LinearLayout>
