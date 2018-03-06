@@ -18,7 +18,8 @@ import ccs.labs.e2phone.profilers.components.*;
 import static ccs.labs.e2phone.profilers.ProfilerConstants.WIDTH;
 
 public class LogService extends Service implements AsyncResponse {
-  private static String TAG = "LogService";
+  private static final String TAG = "LogService";
+  private static final String OUTPUT_FORMAT = "%"+WIDTH+"s";
 
   // Log file
   private boolean     permission;
@@ -53,17 +54,19 @@ public class LogService extends Service implements AsyncResponse {
 
     // Identify the info to be logged
     int component = intent.getIntExtra("component", ProfilerConstants.COMP_BAT);
+
+    if (ProfilerConstants.DEBUG) Log.d(TAG, "component = " + component);
     freq = intent.getIntExtra("samplingFreq", 10);
 
     prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     permission = prefs.getBoolean("permission", true);
 
     if ((component & ProfilerConstants.COMP_BAT) != 0) {
-      bat = new BatteryState();
+      bat = new BatteryState(getApplicationContext());
     }
 
     if ((component & ProfilerConstants.COMP_LCD) != 0) {
-      lcd = new LCD();
+      lcd = new LCD(getApplicationContext());
     }
 
     if (permission) {
@@ -71,7 +74,7 @@ public class LogService extends Service implements AsyncResponse {
         sourceFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                 File.separator + "LogData" + System.currentTimeMillis() + ".log");
         writer = new PrintWriter(sourceFile);
-        String header = String.format(Locale.US, "%"+WIDTH+"s", "time");
+        String header = String.format(Locale.US, OUTPUT_FORMAT, "time");
 
         if (bat != null) {
           header += "," + bat.getLogHeader();
@@ -104,22 +107,27 @@ public class LogService extends Service implements AsyncResponse {
     }
     stopLogging = true;
 
-    if (permission) {
-      File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-      File[] files = dir.listFiles();
-      for (File file : files) {
-        if (file.getName().startsWith("LogData")) {
-          UploadClient uploadClient = new UploadClient(file, LogService.this, prefs);
-          uploadClient.start();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        if (permission) {
+          File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+          File[] files = dir.listFiles();
+          for (File file : files) {
+            if (file.getName().startsWith("LogData")) {
+              UploadClient uploadClient = new UploadClient(file, LogService.this, prefs);
+              uploadClient.start();
 
-          try {
-            uploadClient.join();
-          } catch (InterruptedException e) {
-            e.printStackTrace();
+              try {
+                uploadClient.join();
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+            }
           }
         }
       }
-    }
+    }).start();
 
     if (ProfilerConstants.DEBUG) Log.d(TAG, "LogService destroyed");
   }
@@ -142,13 +150,13 @@ public class LogService extends Service implements AsyncResponse {
   // Given a logging file name
   private void dataLogging() {
     // Time
-    logData += System.currentTimeMillis();
+    logData += String.format(Locale.US, OUTPUT_FORMAT, System.currentTimeMillis());
 
     // Logging data
     if (bat != null) {
       logData += "," + bat.stringData();
     }
-    if (bat != null) {
+    if (lcd != null) {
       logData += "," + lcd.stringData();
     }
 

@@ -50,7 +50,7 @@
             android:id="@+id/etServer"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="192.168.0.105" />
+            android:text="xxx.xxx.xxx.xxx" />
     </LinearLayout>
 
     <LinearLayout

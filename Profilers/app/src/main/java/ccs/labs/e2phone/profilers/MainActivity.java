@@ -8,15 +8,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.IOException;
+
 
 public class MainActivity extends Activity {
+  private static final String TAG = "MainActivity";
   private static final int REQUEST_CODE_PERMISSION = 100;
   private static SharedPreferences prefs;
-  private static Intent mIntent;
+  private Intent mIntent;
 
   private EditText etDelay;
   private EditText etServer;

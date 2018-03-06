@@ -12,7 +12,7 @@ public class ShellCommand {
     public static String execute(String command) {
         // Command with "su": su -c [cmd]
         // Example: su -c ls -l /proc/stat
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
 
         Process p;
         try {
@@ -22,7 +22,7 @@ public class ShellCommand {
 
             String line;
             while ((line = reader.readLine())!= null) {
-                output.append(line + "\n");
+                output.append(line).append("\n");
             }
 
         } catch (Exception e) {

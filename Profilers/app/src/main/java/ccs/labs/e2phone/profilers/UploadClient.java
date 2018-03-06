@@ -59,10 +59,7 @@ public class UploadClient extends Thread {
         httpURLConnection.setDoInput(true);     // Allow Inputs
         httpURLConnection.setDoOutput(true);    // Allow Outputs
         httpURLConnection.setUseCaches(false);  // Don't use a cached copy
-//          if (connectionType == 2) {
-//            // MOBILE
-//            httpURLConnection.setConnectTimeout(60000);
-//          }
+        httpURLConnection.setConnectTimeout(3000);
 
         // This will help you to chunk your data into specific size,
         // so that you need not keep your entire file in the memory
